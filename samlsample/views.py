@@ -1,9 +1,12 @@
 
+from constance import config
+
 from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
+from django.http.response import HttpResponseRedirect
 
 from onelogin.saml2.response import OneLogin_Saml2_Response
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
@@ -19,6 +22,7 @@ class RootView(LoginRequiredMixin, TemplateView):
         """Return information about the items to display on the homepage."""
         context = super().get_context_data(**kwargs)
         context['saml_attrs'] = [{'key': key.replace("SAML_", ""), 'value': self.request.session[key]} for key in self.request.session.keys() if "SAML_" in key]
+        context['signature_enabled'] = "Enabled" if config.VERIFY_SAML_RESPONSE_SIGNATURE else "Disabled"
         return context
 
 
@@ -26,6 +30,15 @@ class LoggedOutView(TemplateView):
     """Render the Logged Out page."""
 
     template_name = "logged-out.html"
+
+
+
+class ToggleSignatureVerificationView(LoginRequiredMixin, TemplateView):
+    """Simple API view to toggle the signature verification setting."""
+
+    def post(self, request):
+        config.VERIFY_SAML_RESPONSE_SIGNATURE = not config.VERIFY_SAML_RESPONSE_SIGNATURE
+        return HttpResponseRedirect('/')
 
 
 def mock_is_valid(self, request_data, request_id=None, raise_exceptions=False):
@@ -42,7 +55,8 @@ def saml_sls_no_csrf(request):
 def vulnerable_saml_acs(request):
     """Handle an AuthenticationResponse from the IdP."""
 
-    OneLogin_Saml2_Response.is_valid = mock_is_valid
+    if not config.VERIFY_SAML_RESPONSE_SIGNATURE:
+        OneLogin_Saml2_Response.is_valid = mock_is_valid
 
     # Add attributes to session
     req = prepare_django_request(request)

@@ -16,9 +16,16 @@
                 <li>{{ attr.key }}: {{ attr.value }}</li>
                 {% endfor %}
             </ul>
+
+            <p class="small">SAML Signature Verification is currently <strong>{{ signature_enabled }}</strong></p>
             {% if user.is_superuser %}
             <button class="hack">Hack the Planet (Admins only!)</button><br>
             {% endif %}
+            
+            <form method="post" action="{% url 'toggle-verification' %}">
+                {% csrf_token %}
+                <button class="toggle">Toggle Signature Verification</button>
+            </form>
             <form method="post" action="{% url 'django_saml:logout' %}">
                 {% csrf_token %}
                 <button class="logout">Log Out</button>
