@@ -2,7 +2,7 @@
 from constance import config
 
 from django.conf import settings
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import TemplateView, View
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_exempt
@@ -31,6 +31,14 @@ class LoggedOutView(TemplateView):
 
     template_name = "logged-out.html"
 
+
+class AdminView(UserPassesTestMixin, TemplateView):
+    """Render the Admin page."""
+
+    template_name = "admin.html"
+
+    def test_func(self):
+        return self.request.user.is_superuser
 
 
 class ToggleSignatureVerificationView(LoginRequiredMixin, TemplateView):

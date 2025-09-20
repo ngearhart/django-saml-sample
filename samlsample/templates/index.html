@@ -17,15 +17,15 @@
                 {% endfor %}
             </ul>
 
-            <p class="small">SAML Signature Verification is currently <strong>{{ signature_enabled }}</strong></p>
-            {% if user.is_superuser %}
-            <button class="hack">Hack the Planet (Admins only!)</button><br>
-            {% endif %}
-            
+            <p class="small">SAML Signature Verification is currently <strong>{{ signature_enabled }}</strong></p>            
             <form method="post" action="{% url 'toggle-verification' %}">
                 {% csrf_token %}
-                <button class="toggle">Toggle Signature Verification</button>
+                <button class="toggle">Toggle Signature Verification</button><br>
             </form>
+
+            {% if user.is_superuser %}
+            <a href="{% url 'secret-admin' %}"><button class="hack">Hack the Planet (Admins only!)</button></a><br>
+            {% endif %}
             <form method="post" action="{% url 'django_saml:logout' %}">
                 {% csrf_token %}
                 <button class="logout">Log Out</button>

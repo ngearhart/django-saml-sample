@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
-from samlsample.views import RootView, vulnerable_saml_acs, saml_sls_no_csrf, LoggedOutView, ToggleSignatureVerificationView
+from samlsample.views import RootView, vulnerable_saml_acs, saml_sls_no_csrf, LoggedOutView, ToggleSignatureVerificationView, AdminView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +25,6 @@ urlpatterns = [
     path('saml/', include('django_saml.urls')),
     path('logged-out/', LoggedOutView.as_view(), name="logged-out"),
     path('toggle-verification/', ToggleSignatureVerificationView.as_view(), name="toggle-verification"),
+    path('secret-admin-page/', AdminView.as_view(), name="secret-admin"),
     path('', RootView.as_view(), name="index"),
 ]
