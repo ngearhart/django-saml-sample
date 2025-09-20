@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
-from samlsample.views import RootView, vulnerable_saml_acs
+from samlsample.views import RootView, vulnerable_saml_acs, saml_sls_no_csrf, LoggedOutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('saml/acs/', vulnerable_saml_acs),
+    path('saml/sls/', saml_sls_no_csrf),
     path('saml/', include('django_saml.urls')),
-    path('', RootView.as_view(), name="index")
-    # re_path('.*', RootView.as_view(), name="index")
+    path('logged-out/', LoggedOutView.as_view(), name="logged-out"),
+    path('', RootView.as_view(), name="index"),
 ]

@@ -7,25 +7,35 @@ from django.views.decorators.csrf import csrf_exempt
 
 from onelogin.saml2.response import OneLogin_Saml2_Response
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
-from django_saml.views import saml_acs, prepare_django_request
+from django_saml.views import saml_acs, prepare_django_request, saml_sls
 
 
 class RootView(LoginRequiredMixin, TemplateView):
-    """Render the Vue Root."""
+    """Render the Root."""
 
     template_name = "index.html"
 
     def get_context_data(self, **kwargs):
         """Return information about the items to display on the homepage."""
         context = super().get_context_data(**kwargs)
-        print(self.request.session.keys())
         context['saml_attrs'] = [{'key': key.replace("SAML_", ""), 'value': self.request.session[key]} for key in self.request.session.keys() if "SAML_" in key]
         return context
+
+
+class LoggedOutView(TemplateView):
+    """Render the Logged Out page."""
+
+    template_name = "logged-out.html"
 
 
 def mock_is_valid(self, request_data, request_id=None, raise_exceptions=False):
     return True
 
+
+@never_cache
+@csrf_exempt
+def saml_sls_no_csrf(request):
+    return saml_sls(request)
 
 @never_cache
 @csrf_exempt
