@@ -45,8 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'constance',
     'django_saml',
-    'samlsample'
+    'samlsample',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,7 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
-    'django_saml.backends.SamlUserBackend',
+    'samlsample.backends.CustomSamlBackend',
 ]
 
 ROOT_URLCONF = 'samlsample.urls'
@@ -173,3 +174,8 @@ SAML_SECURITY = {
 SAML_STRICT = True
 SAML_CREATE_USER = True
 SAML_UPDATE_USER = True
+
+CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
+CONSTANCE_CONFIG = {
+    'VERIFY_SAML_RESPONSE_SIGNATURE': (False, 'Verify the SAML Response Signature'),
+}
