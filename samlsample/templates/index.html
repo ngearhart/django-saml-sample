@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'head.html' %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div>
+        <div>
+            <h1>SAML Sample App</h1>
+            <p>You are logged in as user <strong>{{ user.username }}</strong></p>
+            <p>SAML Attributes:</p>
+            <ul>
+                {% for attr in saml_attrs %}
+                <li>{{ attr.key }}: {{ attr.value }}</li>
+                {% endfor %}
+            </ul>
+            <button class="hack">Hack the Planet (Admins only!)</button><br>
+            <button class="logout">Log Out</button>
+        </div>
+    </div>
+</body>

@@ -1,0 +1,73 @@
+{% load static %}
+
+<meta charset="utf-8" />
+<title>Django SAML Sample App</title>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+<meta content="Over provides many administrative tools for Penn State Athletic Bands students and staff, including attendance and music memorization records." name="description" />
+<meta content="Noah Gearhart and the Blue Band Technology Committee" name="author" />
+
+<link href="https://fonts.cdnfonts.com/css/helvetica-neue-5" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<!-- Favicon -->
+<link rel="shortcut icon" href="{% static 'img/overlogo-white-square.png' %}" />
+
+<style>
+    body {
+        background-color: #141217;
+    }
+
+    html, body {
+        margin: 0;
+        height: 100%;
+    }
+
+    body > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 5em;
+    }
+
+    h1 {
+        font-size: 4em;
+    }
+
+    p {
+        font-size: 2em;
+    }
+
+    li {
+        font-size: 1.5em;
+        max-width: 40em;
+    }
+    
+    button {
+        font-size: 1.5em;
+        margin: 0.5em;
+        padding: 0.5em;
+        cursor: pointer;
+        border: none;
+        border-radius: 0.2em;
+        box-shadow: 3px 3px 10px 0px rgba(0,0,0,1);
+        transition: ease 0.5s all;
+    }
+
+    button:hover {
+        box-shadow: 6px 6px 20px 0px rgba(0,0,0,1);
+    }
+
+    button.hack {
+        background-color: #8C1C13;
+    }
+
+    button.logout {
+        color: black;
+        background-color: #B4C5E4;
+    }
+
+    * {
+        color: #FBFFF1;
+        font-family: 'Helvetica Neue', sans-serif;
+    }
+
+</style>
